@@ -47,7 +47,26 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _initializeDevice() async {
     setLoading(true);
-    _tokenModel = await _backendApi.getToken();
+
+    try {
+      _tokenModel = await _backendApi.getToken();
+    } catch (error) {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Error while getting token'),
+          content: Text('Error: $error'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
     _device = TwilioVoiceWeb.initializeDevice(_tokenModel.token);
     _deviceEventsStream = TwilioVoiceWeb.addDeviceListeners(_device);
     _deviceEventsStream?.listen((event) {
