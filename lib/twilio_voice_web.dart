@@ -2,7 +2,9 @@
 library twilio_voice_web;
 
 import 'dart:async';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js_util';
 
 import 'package:js/js.dart';
@@ -163,12 +165,12 @@ class TwilioVoiceWeb {
 
   /// Makes outgoing call.
   ///
-  /// Takes [device] and [phone] and returns new [Call] object.
+  /// Takes [device] and [phoneNumber] and returns new [Call] object.
   /// After that, call [addCallListeners] method for receiving events.
   ///
-  static Future<Call> makeOutgoingCall(Device device, String phone) async {
+  static Future<Call> makeOutgoingCall(Device device, String phoneNumber) async {
     Call call = await promiseToFuture(
-        device.connect(ConnectOptions(params: ParamOptions(To: phone))));
+        device.connect(ConnectOptions(params: ParamOptions(To: phoneNumber))));
     return call;
   }
 

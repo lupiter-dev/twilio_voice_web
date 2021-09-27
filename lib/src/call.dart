@@ -45,6 +45,7 @@ class ConnectOptions {
 @anonymous
 class ParamOptions {
   external factory ParamOptions({
+    // ignore: non_constant_identifier_names
     String To,
   });
 }
