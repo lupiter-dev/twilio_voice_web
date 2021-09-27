@@ -29,7 +29,7 @@ class Call {
 
   /// Removes all listeners
   ///
-  /// Don`t use this method, use [closeCallListener] and [closeVolumeListener] instead
+  /// Don`t use this method, use [removeCallListeners] and [removeVolumeListener] instead
   external removeAllListeners(List<String> events);
 }
 

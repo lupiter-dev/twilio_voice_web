@@ -27,7 +27,7 @@ class Device {
 
   /// Removes all listeners
   ///
-  /// Don`t use this method, use [closeDeviceListener] instead
+  /// Don`t use this method, use [removeDeviceListeners] instead
   external removeAllListeners(List<String> events);
 }
 

@@ -71,8 +71,8 @@ class _MainScreenState extends State<MainScreen> {
   void _onCallAccepted(Call call) {
     Navigator.pop(context);
     _currentCall?.reject();
-    TwilioVoiceWeb.closeCallListener(_currentCall);
-    TwilioVoiceWeb.closeVolumeListener(_currentCall);
+    TwilioVoiceWeb.removeCallListeners(_currentCall);
+    TwilioVoiceWeb.removeVolumeListener(_currentCall);
     _callEventsStream = TwilioVoiceWeb.addCallListeners(call);
     _volumeStream = TwilioVoiceWeb.addVolumeListener(call);
     setState(() {
@@ -96,8 +96,8 @@ class _MainScreenState extends State<MainScreen> {
           break;
         case CallEvent.disconnect:
         case CallEvent.cancel:
-          TwilioVoiceWeb.closeVolumeListener(_currentCall);
-          TwilioVoiceWeb.closeCallListener(_currentCall);
+          TwilioVoiceWeb.removeVolumeListener(_currentCall);
+          TwilioVoiceWeb.removeCallListeners(_currentCall);
           break;
         default:
           break;
@@ -110,9 +110,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    TwilioVoiceWeb.closeDeviceListener(_device);
-    TwilioVoiceWeb.closeCallListener(_currentCall);
-    TwilioVoiceWeb.closeVolumeListener(_currentCall);
+    TwilioVoiceWeb.removeDeviceListeners(_device);
+    TwilioVoiceWeb.removeCallListeners(_currentCall);
+    TwilioVoiceWeb.removeVolumeListener(_currentCall);
     super.dispose();
   }
 

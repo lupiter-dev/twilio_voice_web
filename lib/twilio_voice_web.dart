@@ -25,10 +25,9 @@ class TwilioVoiceWeb {
   static final Map<Call, StreamController<CallEvent>> _callsListeners = {};
   static final Map<Call, StreamController<Volume>> _volumesListeners = {};
 
-  /// Create Device object
+  /// Creates a Device object using the given [token].
   ///
-  /// Received [token] and create a new Device object.
-  /// After you create object, add listeners to it using [addDeviceListeners] and call [register] method.
+  /// After you create the device, add listeners to it using [addDeviceListeners] and call [register] method.
   /// For debug version use [debug] parameter.
   ///
   static Device initializeDevice(String token,
@@ -39,44 +38,44 @@ class TwilioVoiceWeb {
   }
 
 
-  /// Removes listeners from [Device] object
+  /// Removes listeners from the [Device] object
   ///
-  /// Call this method when you don`t use [Device] object anymore.
+  /// Call this method when you don`t use the [Device] object anymore.
   ///
-  static void closeDeviceListener(Device? device) {
+  static void removeDeviceListeners(Device? device) {
     if(_devicesListeners.containsKey(device) && !(_devicesListeners[device]?.isClosed ?? true)){
       _devicesListeners[device]!.close();
       device?.removeAllListeners(["registered", 'error', 'incoming', 'deviceChange']);
     }
   }
 
-  /// Removes listeners from [Call] object
+  /// Removes listeners from the [Call] object
   ///
-  /// Call this method when [Call] is disconnected.
+  /// Call this method when the [Call] is disconnected.
   ///
-  static void closeCallListener(Call? call) {
+  static void removeCallListeners(Call? call) {
     if(_callsListeners.containsKey(call) && !(_callsListeners[call]?.isClosed ?? true)){
       _callsListeners[call]!.close();
       call?.removeAllListeners(["accept", 'disconnect', 'cancel']);
     }
   }
 
-  /// Removes volume listener from [Call] object
+  /// Removes volume listener from the [Call] object
   ///
   /// Call this method when [Call] is disconnected.
   ///
-  static void closeVolumeListener(Call? call) {
+  static void removeVolumeListener(Call? call) {
     if(_volumesListeners.containsKey(call) && !(_volumesListeners[call]?.isClosed ?? true)){
       _volumesListeners[call]!.close();
       call?.removeAllListeners(["volume"]);
     }
   }
 
-  /// Handle volume change
+  /// Adds an internal listener to handle volume changes.
   ///
-  /// Receives [call] object, and returns [Stream] that sends [Volume] objects.
+  /// Takes a [call] object, and returns [Stream] that yields [Volume] objects.
   /// Before add listeners check if volume supported [Device.audio.isVolumeSupported].
-  /// After call is disconnected remove listener using [closeVolumeListener].
+  /// After call is disconnected remove listener using [removeVolumeListener].
   ///
   static Stream<Volume> addVolumeListener(Call? call) {
     if(_volumesListeners.containsKey(call) && !(_volumesListeners[call]?.isClosed ?? true)){
@@ -90,14 +89,14 @@ class TwilioVoiceWeb {
     return _volumeStreamController.stream.asBroadcastStream();
   }
 
-  /// Handle [Call] events
+  /// Adds internal listeners to handle [Call] events.
   ///
-  /// Receives [call] object and returns [Stream] that sends [CallEvent].
-  /// After call disconnected remove listeners using [closeVolumeListener].
+  /// Takes [call] object and returns [Stream] that yields [CallEvent]s.
+  /// After call is disconnected remove listeners using [removeCallListeners].
   ///
   /// [CallEvent.accept] emitted when call has been accepted
   /// [CallEvent.disconnect] emitted when media session has been disconnected
-  /// [CallEvent.cancel] emitted when has been canceled
+  /// [CallEvent.cancel] emitted when call has been canceled
   ///
   static Stream<CallEvent> addCallListeners(Call? call) {
     if(_callsListeners.containsKey(call) && !(_callsListeners[call]?.isClosed ?? true)){
@@ -117,10 +116,10 @@ class TwilioVoiceWeb {
     return _callEventsStreamController.stream.asBroadcastStream();
   }
 
-  /// Handle [Device] events
+  /// Adds internal listeners to handle [Device] events.
   ///
-  /// Receives [device] object and returns [Stream] that sends [DeviceEvent].
-  /// Remove listeners using [closeDeviceListener] when you don`t use [Device] object anymore.
+  /// Takes [device] object and returns [Stream] that yields [DeviceEvent]s .
+  /// Remove listeners using [removeDeviceListeners] when you don`t use [Device] object anymore.
   ///
   static Stream<DeviceEvent> addDeviceListeners(Device device) {
     if(_devicesListeners.containsKey(device) && !(_devicesListeners[device]?.isClosed ?? true)){
@@ -162,10 +161,10 @@ class TwilioVoiceWeb {
     return inputDeviceId;
   }
 
-  /// Makes outgoing call
+  /// Makes outgoing call.
   ///
-  /// Receives [device] and [phone] and returns new [Call] object.
-  /// After that call [addCallListeners] method for receiving events.
+  /// Takes [device] and [phone] and returns new [Call] object.
+  /// After that, call [addCallListeners] method for receiving events.
   ///
   static Future<Call> makeOutgoingCall(Device device, String phone) async {
     Call call = await promiseToFuture(
@@ -173,7 +172,7 @@ class TwilioVoiceWeb {
     return call;
   }
 
-  /// Returns [List] of available output [AudioDevice]
+  /// Returns list of available output [AudioDevice]s.
   ///
   static List<AudioDevice> getAvailableOutputDevices(Device device) {
     List<AudioDevice> devices = [];
@@ -185,7 +184,7 @@ class TwilioVoiceWeb {
     return devices;
   }
 
-  /// Returns [List] of available input [AudioDevice]
+  /// Returns [List] of available input [AudioDevice]s.
   ///
   static List<AudioDevice> getAvailableInputDevices(Device device) {
     List<AudioDevice> devices = [];
