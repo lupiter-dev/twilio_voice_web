@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* Initial release. Provides support for incoming and outgoing calls
+* Initial release. Supported twilio.js version: 2.0.1

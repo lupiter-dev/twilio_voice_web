@@ -11,6 +11,12 @@ Therefore, it wasn't easily possible to integrate web support to the mentioned t
 You need a running backend service to retrieve an access token, which is needed to register a new device.
 You can use one of the quick guides if you don't have your own backend at the moment: https://www.twilio.com/docs/voice/sdks/javascript/get-started
 
+You need to add the 'twilio.min.js' file to the web folder of your project (s. example project as reference).
+See the instructions [here](https://github.com/twilio/twilio-voice.js#github) for downloading the SDK code from GitHub.
+You will download a zip or tarball for a specific release version of the Voice JavaScript SDK (ex: `2.0.0`), extract the
+files, and retrieve the `twilio.min.js` file from the `dist/` folder.
+The corresponding JS SDK version for each release is written in the CHANGELOG.md.
+   
 The Microphone permission is requested by the JS SDK, as soon as it is required.
 
 ### Usage
