@@ -9,7 +9,7 @@ import 'package:js/js.dart';
 
 part 'src/audio_device.dart';
 
-part 'src/call_event.dart';
+part 'src/call.dart';
 
 part 'src/device.dart';
 
