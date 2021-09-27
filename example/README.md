@@ -4,13 +4,8 @@ Demonstrates how to use the twilio_voice_web plugin.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To be able to run this project, you need the following requirements:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Twilio account with an activated phone number that can be used for phone calls
+- A running backend service to retrieve an access token. The example app expects the token endpoint to be available at "http://localhost:8080/token".
+ You can use one of the quick guides if you don't have your own backend at the moment: https://www.twilio.com/docs/voice/sdks/javascript/get-started
