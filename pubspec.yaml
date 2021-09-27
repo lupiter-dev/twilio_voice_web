@@ -1,7 +1,7 @@
 name: twilio_voice_web
 description: twilio_voice_web
 version: 0.0.1
-homepage:
+homepage: https://github.com/lupiter-dev/twilio_voice_web
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
+  js: ^0.6.3
 
 dev_dependencies:
   flutter_test:
