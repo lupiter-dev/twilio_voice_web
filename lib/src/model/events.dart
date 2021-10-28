@@ -1,4 +1,4 @@
-part of twilio_voice_web;
+import 'package:twilio_voice_web/src/model/call.dart';
 
 abstract class DeviceEvent {}
 
@@ -16,4 +16,10 @@ class IncomingCallEvent extends DeviceEvent {
   final Call call;
 
   IncomingCallEvent(this.call);
+}
+
+enum CallEvent {
+  accept,
+  disconnect,
+  cancel
 }

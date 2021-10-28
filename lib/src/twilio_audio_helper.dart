@@ -1,7 +1,7 @@
-part of twilio_voice_web;
+part of twilio_voice_web_internal;
 
 @JS("AudioHelper")
-class TwilioAudioHelper {
+class TwilioAudioHelper implements AudioHelper {
   external bool get isOutputSelectionSupported;
 
   external bool get isVolumeSupported;

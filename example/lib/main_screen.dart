@@ -51,6 +51,7 @@ class _MainScreenState extends State<MainScreen> {
     try {
       _tokenModel = await _backendApi.getToken();
     } catch (error) {
+      print(error);
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -67,15 +68,15 @@ class _MainScreenState extends State<MainScreen> {
       return;
     }
 
-    _device = TwilioVoiceWeb.initializeDevice(_tokenModel.token);
-    _deviceEventsStream = TwilioVoiceWeb.addDeviceListeners(_device);
+    _device = TwilioVoiceWeb.platform.initializeDevice(_tokenModel.token);
+    _deviceEventsStream = TwilioVoiceWeb.platform.addDeviceListeners(_device);
     _deviceEventsStream?.listen((event) {
       if (event is RegisteredEvent) {
         if(_device.audio.isOutputSelectionSupported) {
-          _outputDevices = TwilioVoiceWeb.getAvailableOutputDevices(_device);
+          _outputDevices = TwilioVoiceWeb.platform.getAvailableOutputDevices(_device);
           _selectedOutputDevice = _outputDevices.first.id;
         }
-        _inputDevices = TwilioVoiceWeb.getAvailableInputDevices(_device);
+        _inputDevices = TwilioVoiceWeb.platform.getAvailableInputDevices(_device);
         _selectedInputDevice = _inputDevices.first.id;
         _isVolumeSupported = _device.audio.isVolumeSupported;
         setLoading(false);
@@ -90,10 +91,10 @@ class _MainScreenState extends State<MainScreen> {
   void _onCallAccepted(Call call) {
     Navigator.pop(context);
     _currentCall?.reject();
-    TwilioVoiceWeb.removeCallListeners(_currentCall);
-    TwilioVoiceWeb.removeVolumeListener(_currentCall);
-    _callEventsStream = TwilioVoiceWeb.addCallListeners(call);
-    _volumeStream = TwilioVoiceWeb.addVolumeListener(call);
+    TwilioVoiceWeb.platform.removeCallListeners(_currentCall);
+    TwilioVoiceWeb.platform.removeVolumeListener(_currentCall);
+    _callEventsStream = TwilioVoiceWeb.platform.addCallListeners(call);
+    _volumeStream = TwilioVoiceWeb.platform.addVolumeListener(call);
     setState(() {
       _currentCall = call;
     });
@@ -106,17 +107,17 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _makeOutgoingCall() async {
-    Call call = await TwilioVoiceWeb.makeOutgoingCall(_device, _phone);
-    _callEventsStream = TwilioVoiceWeb.addCallListeners(call);
+    Call call = await TwilioVoiceWeb.platform.makeOutgoingCall(_device, _phone);
+    _callEventsStream = TwilioVoiceWeb.platform.addCallListeners(call);
     _callEventsStream?.listen((event) {
       switch (event) {
         case CallEvent.accept:
-          _volumeStream = TwilioVoiceWeb.addVolumeListener(_currentCall);
+          _volumeStream = TwilioVoiceWeb.platform.addVolumeListener(_currentCall);
           break;
         case CallEvent.disconnect:
         case CallEvent.cancel:
-          TwilioVoiceWeb.removeVolumeListener(_currentCall);
-          TwilioVoiceWeb.removeCallListeners(_currentCall);
+          TwilioVoiceWeb.platform.removeVolumeListener(_currentCall);
+          TwilioVoiceWeb.platform.removeCallListeners(_currentCall);
           break;
         default:
           break;
@@ -129,9 +130,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    TwilioVoiceWeb.removeDeviceListeners(_device);
-    TwilioVoiceWeb.removeCallListeners(_currentCall);
-    TwilioVoiceWeb.removeVolumeListener(_currentCall);
+    TwilioVoiceWeb.platform.removeDeviceListeners(_device);
+    TwilioVoiceWeb.platform.removeCallListeners(_currentCall);
+    TwilioVoiceWeb.platform.removeVolumeListener(_currentCall);
     super.dispose();
   }
 
@@ -301,7 +302,7 @@ class _MainScreenState extends State<MainScreen> {
                       return TextButton(
                           onPressed: () {
                             setState(() {
-                              _selectedOutputDevice = TwilioVoiceWeb.setOutputDevice(_device, audioDevice.id);
+                              _selectedOutputDevice = TwilioVoiceWeb.platform.setOutputDevice(_device, audioDevice.id);
                             });
                           },
                           child: Row(
@@ -329,7 +330,7 @@ class _MainScreenState extends State<MainScreen> {
                 return TextButton(
                     onPressed: () {
                       setState(() {
-                        _selectedInputDevice = TwilioVoiceWeb.setInputDevice(_device, audioDevice.id);
+                        _selectedInputDevice = TwilioVoiceWeb.platform.setInputDevice(_device, audioDevice.id);
                       });
                     },
                     child: Row(

@@ -8,12 +8,8 @@ import 'model/token_model.dart';
 class BackendApiImpl extends BackendApi {
   @override
   Future<TokenModel> getToken() async {
-    try {
-      final response = await get(Uri.parse('http://localhost:8080/token'));
-      final tokenModel = TokenModel.fromJson(jsonDecode(response.body));
-      return tokenModel;
-    } catch (e) {
-      rethrow;
-    }
+    final response = await get(Uri.parse('http://localhost:8080/token'));
+    final tokenModel = TokenModel.fromJson(jsonDecode(response.body));
+    return tokenModel;
   }
 }
