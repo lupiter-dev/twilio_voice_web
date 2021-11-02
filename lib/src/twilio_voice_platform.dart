@@ -1,12 +1,12 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:twilio_voice_web/src/model/call.dart';
 import 'package:twilio_voice_web/src/model/device.dart';
 import 'package:twilio_voice_web/src/model/events.dart';
 import 'package:twilio_voice_web/src/model/volume.dart';
+import 'package:twilio_voice_web/src/model/web_call.dart';
 
 import '../twilio_voice_web.dart';
 
-abstract class TwilioVoiceWeb extends PlatformInterface  {
+abstract class TwilioVoiceWeb extends PlatformInterface {
   TwilioVoiceWeb() : super(token: _token);
 
   static final Object _token = Object();
@@ -20,40 +20,40 @@ abstract class TwilioVoiceWeb extends PlatformInterface  {
     _instance = instance;
   }
 
-
   /// Creates a Device object using the given [token].
   ///
   /// After you create the device, add listeners to it using [addDeviceListeners] and call [register] method.
   /// For debug version use [debug] parameter.
   ///
   Device initializeDevice(String token,
-      {bool debug = false, bool answerOnBridge = true})  {
+      {bool debug = false, bool answerOnBridge = true}) {
     throw UnimplementedError('initializeDevice() has not been implemented.');
   }
-
 
   /// Removes listeners from the [Device] object
   ///
   /// Call this method when you don`t use the [Device] object anymore.
   ///
   void removeDeviceListeners(Device? device) {
-    throw UnimplementedError('removeDeviceListeners() has not been implemented.');
+    throw UnimplementedError(
+        'removeDeviceListeners() has not been implemented.');
   }
 
-  /// Removes listeners from the [Call] object
+  /// Removes listeners from the [WebCall] object
   ///
-  /// Call this method when the [Call] is disconnected.
+  /// Call this method when the [WebCall] is disconnected.
   ///
-  void removeCallListeners(Call? call) {
+  void removeCallListeners(WebCall call) {
     throw UnimplementedError('removeCallListeners() has not been implemented.');
   }
 
-  /// Removes volume listener from the [Call] object
+  /// Removes volume listener from the [WebCall] object
   ///
-  /// Call this method when [Call] is disconnected.
+  /// Call this method when [WebCall] is disconnected.
   ///
-  void removeVolumeListener(Call? call) {
-    throw UnimplementedError('removeVolumeListener() has not been implemented.');
+  void removeVolumeListener(WebCall? call) {
+    throw UnimplementedError(
+        'removeVolumeListener() has not been implemented.');
   }
 
   /// Adds an internal listener to handle volume changes.
@@ -62,11 +62,11 @@ abstract class TwilioVoiceWeb extends PlatformInterface  {
   /// Before add listeners check if volume supported [Device.audio.isVolumeSupported].
   /// After call is disconnected remove listener using [removeVolumeListener].
   ///
-  Stream<Volume> addVolumeListener(Call? call) {
+  Stream<Volume> addVolumeListener(WebCall? call) {
     throw UnimplementedError('addVolumeListener() has not been implemented.');
   }
 
-  /// Adds internal listeners to handle [Call] events.
+  /// Adds internal listeners to handle [WebCall] events.
   ///
   /// Takes [call] object and returns [Stream] that yields [CallEvent]s.
   /// After call is disconnected remove listeners using [removeCallListeners].
@@ -75,7 +75,7 @@ abstract class TwilioVoiceWeb extends PlatformInterface  {
   /// [CallEvent.disconnect] emitted when media session has been disconnected
   /// [CallEvent.cancel] emitted when call has been canceled
   ///
-  Stream<CallEvent> addCallListeners(Call? call) {
+  Stream<CallEvent> addCallListeners(WebCall call) {
     throw UnimplementedError('addCallListeners() has not been implemented.');
   }
 
@@ -102,26 +102,26 @@ abstract class TwilioVoiceWeb extends PlatformInterface  {
 
   /// Makes outgoing call.
   ///
-  /// Takes [device] and [phoneNumber] and returns new [Call] object.
+  /// Takes [device] and [phoneNumber] and returns new [WebCall] object.
   /// After that, call [addCallListeners] method for receiving events.
   ///
-  Future<Call> makeOutgoingCall(Device device, String phoneNumber) async {
+  Future<dynamic> makeOutgoingCall(Device device, String phoneNumber) async {
     throw UnimplementedError('makeOutgoingCall() has not been implemented.');
   }
 
   /// Returns list of available output [AudioDevice]s.
   ///
   List<AudioDevice> getAvailableOutputDevices(Device device) {
-    throw UnimplementedError('getAvailableOutputDevices() has not been implemented.');
+    throw UnimplementedError(
+        'getAvailableOutputDevices() has not been implemented.');
   }
 
   /// Returns [List] of available input [AudioDevice]s.
   ///
   List<AudioDevice> getAvailableInputDevices(Device device) {
-    throw UnimplementedError('getAvailableInputDevices() has not been implemented.');
+    throw UnimplementedError(
+        'getAvailableInputDevices() has not been implemented.');
   }
 }
 
-class _DummyImpl extends TwilioVoiceWeb{
-
-}
+class _DummyImpl extends TwilioVoiceWeb {}

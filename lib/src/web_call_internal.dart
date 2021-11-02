@@ -1,7 +1,7 @@
 part of twilio_voice_web_internal;
 
 @JS("Call")
-class WebCall implements Call {
+class WebCallInternal implements Call {
   ///Mute call
   @override
   external mute(bool mute);
