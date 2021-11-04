@@ -39,19 +39,19 @@ abstract class TwilioVoiceWeb extends PlatformInterface {
         'removeDeviceListeners() has not been implemented.');
   }
 
-  /// Removes listeners from the [WebCall] object
+  /// Removes listeners from the [Call] object
   ///
-  /// Call this method when the [WebCall] is disconnected.
+  /// Call this method when the [Call] is disconnected.
   ///
-  void removeCallListeners(WebCall call) {
+  void removeCallListeners(Call call) {
     throw UnimplementedError('removeCallListeners() has not been implemented.');
   }
 
-  /// Removes volume listener from the [WebCall] object
+  /// Removes volume listener from the [Call] object
   ///
-  /// Call this method when [WebCall] is disconnected.
+  /// Call this method when [Call] is disconnected.
   ///
-  void removeVolumeListener(WebCall? call) {
+  void removeVolumeListener(Call call) {
     throw UnimplementedError(
         'removeVolumeListener() has not been implemented.');
   }
@@ -62,11 +62,11 @@ abstract class TwilioVoiceWeb extends PlatformInterface {
   /// Before add listeners check if volume supported [Device.audio.isVolumeSupported].
   /// After call is disconnected remove listener using [removeVolumeListener].
   ///
-  Stream<Volume> addVolumeListener(WebCall? call) {
+  Stream<Volume> addVolumeListener(Call call) {
     throw UnimplementedError('addVolumeListener() has not been implemented.');
   }
 
-  /// Adds internal listeners to handle [WebCall] events.
+  /// Adds internal listeners to handle [Call] events.
   ///
   /// Takes [call] object and returns [Stream] that yields [CallEvent]s.
   /// After call is disconnected remove listeners using [removeCallListeners].
@@ -75,7 +75,7 @@ abstract class TwilioVoiceWeb extends PlatformInterface {
   /// [CallEvent.disconnect] emitted when media session has been disconnected
   /// [CallEvent.cancel] emitted when call has been canceled
   ///
-  Stream<CallEvent> addCallListeners(WebCall call) {
+  Stream<CallEvent> addCallListeners(Call call) {
     throw UnimplementedError('addCallListeners() has not been implemented.');
   }
 
@@ -102,7 +102,7 @@ abstract class TwilioVoiceWeb extends PlatformInterface {
 
   /// Makes outgoing call.
   ///
-  /// Takes [device] and [phoneNumber] and returns new [WebCall] object.
+  /// Takes [device] and [phoneNumber] and returns new [Call] object.
   /// After that, call [addCallListeners] method for receiving events.
   ///
   Future<dynamic> makeOutgoingCall(Device device, String phoneNumber) async {

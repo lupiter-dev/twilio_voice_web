@@ -66,12 +66,12 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
     }
   }
 
-  /// Removes listeners from the [WebCall] object
+  /// Removes listeners from the [Call] object
   ///
-  /// Call this method when the [WebCall] is disconnected.
+  /// Call this method when the [Call] is disconnected.
   ///
   @override
-  void removeCallListeners(WebCall? call) {
+  void removeCallListeners(Call? call) {
     if (_callsListeners.containsKey(call) &&
         !(_callsListeners[call]?.isClosed ?? true)) {
       _callsListeners[call]!.close();
@@ -79,12 +79,12 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
     }
   }
 
-  /// Removes volume listener from the [WebCall] object
+  /// Removes volume listener from the [Call] object
   ///
-  /// Call this method when [WebCall] is disconnected.
+  /// Call this method when [Call] is disconnected.
   ///
   @override
-  void removeVolumeListener(WebCall? call) {
+  void removeVolumeListener(Call? call) {
     if (_volumesListeners.containsKey(call) &&
         !(_volumesListeners[call]?.isClosed ?? true)) {
       _volumesListeners[call]!.close();
@@ -99,7 +99,7 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
   /// After call is disconnected remove listener using [removeVolumeListener].
   ///
   @override
-  Stream<Volume> addVolumeListener(WebCall? call) {
+  Stream<Volume> addVolumeListener(Call? call) {
     if (_volumesListeners.containsKey(call) &&
         !(_volumesListeners[call]?.isClosed ?? true)) {
       return _volumesListeners[call]!.stream;
@@ -112,7 +112,7 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
     return _volumeStreamController.stream.asBroadcastStream();
   }
 
-  /// Adds internal listeners to handle [WebCall] events.
+  /// Adds internal listeners to handle [Call] events.
   ///
   /// Takes [call] object and returns [Stream] that yields [CallEvent]s.
   /// After call is disconnected remove listeners using [removeCallListeners].
@@ -122,7 +122,7 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
   /// [CallEvent.cancel] emitted when call has been canceled
   ///
   @override
-  Stream<CallEvent> addCallListeners(WebCall? call) {
+  Stream<CallEvent> addCallListeners(Call? call) {
     if (_callsListeners.containsKey(call) &&
         !(_callsListeners[call]?.isClosed ?? true)) {
       return _callsListeners[call]!.stream;
@@ -164,7 +164,7 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
       _deviceEventsStreamController.sink.add(event);
     }));
     webDevice.on('incoming', allowInterop((WebCallInternal incomingCall) {
-      IncomingCallEvent event = IncomingCallEvent(incomingCall);
+      IncomingCallEvent event = IncomingCallEvent(WebCall(incomingCall));
       _deviceEventsStreamController.sink.add(event);
     }));
     webDevice.audio.on('deviceChange', allowInterop((webDevice) {
@@ -198,7 +198,7 @@ class TwilioVoiceWebImpl extends TwilioVoiceWeb {
   /// After that, call [addCallListeners] method for receiving events.
   ///
   @override
-  Future<WebCall> makeOutgoingCall(Device device, String phoneNumber) async {
+  Future<Call> makeOutgoingCall(Device device, String phoneNumber) async {
     WebCallInternal call = await promiseToFuture((device as WebDevice)
         .connect(WebConnectOptions(params: ParamOptions(To: phoneNumber))));
     return WebCall(call);
