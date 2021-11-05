@@ -12,7 +12,7 @@ import 'package:twilio_voice_web/src/model/call.dart';
 import 'package:twilio_voice_web/src/model/device.dart';
 import 'package:twilio_voice_web/src/model/events.dart';
 import 'package:twilio_voice_web/src/model/volume.dart';
-import 'package:twilio_voice_web/src/model/web_call.dart';
+import 'package:twilio_voice_web/src/web_call.dart';
 import 'package:twilio_voice_web/twilio_voice_web.dart';
 
 import 'model/audio_helper.dart';

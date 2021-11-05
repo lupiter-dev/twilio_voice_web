@@ -2,7 +2,6 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:twilio_voice_web/src/model/device.dart';
 import 'package:twilio_voice_web/src/model/events.dart';
 import 'package:twilio_voice_web/src/model/volume.dart';
-import 'package:twilio_voice_web/src/model/web_call.dart';
 
 import '../twilio_voice_web.dart';
 
