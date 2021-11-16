@@ -10,5 +10,8 @@ abstract class Device {
   /// Disconnect all calls
   void disconnectAll();
 
+  /// Update the token
+  void updateToken(String token);
+
   AudioHelper get audio;
 }

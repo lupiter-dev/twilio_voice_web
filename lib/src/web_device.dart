@@ -29,6 +29,9 @@ class WebDevice implements Device {
   ///
   /// Don`t use this method, use [removeDeviceListeners] instead
   external removeAllListeners(List<String> events);
+
+  @override
+  external updateToken(String token);
 }
 
 @JS()
