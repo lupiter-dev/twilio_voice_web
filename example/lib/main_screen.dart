@@ -90,9 +90,11 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onCallAccepted(Call call) {
     Navigator.pop(context);
-    _currentCall?.reject();
-    TwilioVoiceWeb.platform.removeCallListeners(_currentCall);
-    TwilioVoiceWeb.platform.removeVolumeListener(_currentCall);
+    if (_currentCall != null) {
+      _currentCall!.reject();
+      TwilioVoiceWeb.platform.removeCallListeners(_currentCall!);
+      TwilioVoiceWeb.platform.removeVolumeListener(_currentCall!);
+    }
     _callEventsStream = TwilioVoiceWeb.platform.addCallListeners(call);
     _volumeStream = TwilioVoiceWeb.platform.addVolumeListener(call);
     setState(() {
@@ -112,12 +114,12 @@ class _MainScreenState extends State<MainScreen> {
     _callEventsStream?.listen((event) {
       switch (event) {
         case CallEvent.accept:
-          _volumeStream = TwilioVoiceWeb.platform.addVolumeListener(_currentCall);
+          _volumeStream = TwilioVoiceWeb.platform.addVolumeListener(_currentCall!);
           break;
         case CallEvent.disconnect:
         case CallEvent.cancel:
-          TwilioVoiceWeb.platform.removeVolumeListener(_currentCall);
-          TwilioVoiceWeb.platform.removeCallListeners(_currentCall);
+          TwilioVoiceWeb.platform.removeVolumeListener(_currentCall!);
+          TwilioVoiceWeb.platform.removeCallListeners(_currentCall!);
           break;
         default:
           break;
@@ -131,8 +133,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     TwilioVoiceWeb.platform.removeDeviceListeners(_device);
-    TwilioVoiceWeb.platform.removeCallListeners(_currentCall);
-    TwilioVoiceWeb.platform.removeVolumeListener(_currentCall);
+    if (_currentCall != null){
+      TwilioVoiceWeb.platform.removeCallListeners(_currentCall!);
+      TwilioVoiceWeb.platform.removeVolumeListener(_currentCall!);
+    }
     super.dispose();
   }
 
